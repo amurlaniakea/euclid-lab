@@ -303,11 +303,12 @@ elif page == pages[2]:
 else:
     heading(
         "05 / DATA LAB",
-        "Laboratorio de imágenes" if es else "Image laboratory",
-        "Carga una imagen FITS para inspeccionar sus estadísticas básicas. "
-        "Este ejemplo educativo no sustituye un pipeline científico."
+        "Laboratorio FITS avanzado" if es else "Advanced FITS laboratory",
+        "Explora la intensidad, el contraste, la distribución de píxeles y la cabecera FITS. "
+        "Herramienta educativa; no sustituye un pipeline científico."
         if es else
-        "Upload a FITS image to inspect basic statistics. This educational example is not a scientific pipeline.",
+        "Explore intensity, contrast, pixel distribution and the FITS header. "
+        "Educational tool; not a replacement for a scientific pipeline.",
     )
     uploaded = st.file_uploader(
         "Selecciona un archivo FITS" if es else "Choose a FITS file",
@@ -317,7 +318,7 @@ else:
         import tempfile
         import numpy as np
         import matplotlib.pyplot as plt
-        from src.euclid_tools import image_summary, load_fits_image
+        from src.euclid_tools import display_limits, image_summary, load_fits_image, stretch_image
 
         with tempfile.NamedTemporaryFile(suffix=".fits") as tmp:
             tmp.write(uploaded.getvalue())
@@ -325,29 +326,108 @@ else:
             try:
                 data, header = load_fits_image(tmp.name)
                 stats = image_summary(data)
-                a, b, c = st.columns(3)
-                a.metric("Píxeles válidos" if es else "Finite pixels", f"{stats['n_pixels']:,}")
-                b.metric("Media" if es else "Mean", f"{stats['mean']:.4g}")
-                c.metric("Desviación típica" if es else "Std. deviation", f"{stats['std']:.4g}")
-                fig, ax = plt.subplots(figsize=(10, 5))
-                finite = data[np.isfinite(data)]
-                vmin, vmax = np.percentile(finite, [1, 99])
-                ax.imshow(data, origin="lower", cmap="magma", vmin=vmin, vmax=vmax)
+                st.markdown("#### " + ("Resumen de la imagen" if es else "Image summary"))
+                m1, m2, m3, m4 = st.columns(4)
+                m1.metric("Píxeles válidos" if es else "Finite pixels", f"{stats['n_pixels']:,}")
+                m2.metric("No válidos" if es else "Invalid pixels", f"{stats['n_invalid']:,}")
+                m3.metric("Mediana" if es else "Median", f"{stats['median']:.5g}")
+                m4.metric("Desv. típica" if es else "Std. deviation", f"{stats['std']:.5g}")
+
+                st.caption(
+                    f"Dimensiones: {data.shape[1]} × {data.shape[0]} px · "
+                    f"dtype: {data.dtype} · "
+                    f"mín: {stats['minimum']:.5g} · máx: {stats['maximum']:.5g}"
+                    if es else
+                    f"Dimensions: {data.shape[1]} × {data.shape[0]} px · "
+                    f"dtype: {data.dtype} · "
+                    f"min: {stats['minimum']:.5g} · max: {stats['maximum']:.5g}"
+                )
+
+                st.markdown("#### " + ("Controles de visualización" if es else "Display controls"))
+                left, right = st.columns([1, 1])
+                with left:
+                    stretch_label = st.selectbox(
+                        "Escala de intensidad" if es else "Intensity stretch",
+                        ["Lineal", "Logarítmica", "Asinh"] if es else ["Linear", "Logarithmic", "Asinh"],
+                    )
+                    stretch_map = {
+                        ("Lineal" if es else "Linear"): "linear",
+                        ("Logarítmica" if es else "Logarithmic"): "log",
+                        "Asinh": "asinh",
+                    }
+                    stretch = stretch_map[stretch_label]
+                    cmap = st.selectbox(
+                        "Mapa de color" if es else "Colour map",
+                        ["magma", "viridis", "inferno", "gray", "cividis"],
+                        index=0,
+                    )
+                with right:
+                    low_pct, high_pct = st.slider(
+                        "Percentiles de contraste" if es else "Contrast percentiles",
+                        min_value=0, max_value=100, value=(1, 99), step=1,
+                    )
+                    asinh_a = st.number_input(
+                        "Parámetro asinh" if es else "Asinh parameter",
+                        min_value=0.001, max_value=1.0, value=0.1, step=0.01,
+                        disabled=(stretch != "asinh"),
+                    )
+
+                vmin, vmax = display_limits(data, low_pct, high_pct)
+                display = stretch_image(data, stretch=stretch, vmin=vmin, vmax=vmax, asinh_a=asinh_a)
+                fig, ax = plt.subplots(figsize=(10, 6))
+                image_artist = ax.imshow(display, origin="lower", cmap=cmap, vmin=0, vmax=1, interpolation="nearest")
                 ax.set_title(uploaded.name)
                 ax.set_xlabel("X pixel")
                 ax.set_ylabel("Y pixel")
+                fig.colorbar(image_artist, ax=ax, label="Normalized intensity")
+                fig.tight_layout()
                 st.pyplot(fig)
                 plt.close(fig)
-                with st.expander("Metadatos FITS / FITS metadata"):
+                st.caption(
+                    f"Visualización normalizada · límites de datos: {vmin:.5g} a {vmax:.5g} · "
+                    f"escala: {stretch_label}"
+                )
+
+                st.markdown("#### " + ("Distribución de píxeles" if es else "Pixel distribution"))
+                finite = np.asarray(data, dtype=float)
+                finite = finite[np.isfinite(finite)]
+                hist_fig, hist_ax = plt.subplots(figsize=(10, 3))
+                hist_ax.hist(finite, bins=60, histtype="stepfilled", alpha=0.75)
+                hist_ax.set_xlabel("Pixel value")
+                hist_ax.set_ylabel("Count")
+                hist_ax.set_title("Finite pixel-value histogram")
+                hist_ax.grid(alpha=0.2)
+                hist_fig.tight_layout()
+                st.pyplot(hist_fig)
+                plt.close(hist_fig)
+
+                with st.expander("Estadísticas completas / Full statistics"):
+                    stat_cols = st.columns(3)
+                    for col, key in zip(stat_cols * 5, [
+                        "mean", "median", "std", "minimum", "maximum",
+                        "p01", "p05", "p25", "p75", "p95", "p99",
+                    ]):
+                        col.write(f"**{key}**")
+                        col.write(f"{stats[key]:.7g}")
+
+                with st.expander("Cabecera FITS / FITS header"):
                     st.code(str(header), language="text")
+                    selected_keys = ["OBJECT", "TELESCOP", "INSTRUME", "FILTER", "BUNIT",
+                                     "EXPTIME", "DATE-OBS", "CRVAL1", "CRVAL2", "CDELT1", "CDELT2"]
+                    metadata = {key: header[key] for key in selected_keys if key in header}
+                    if metadata:
+                        st.json(metadata)
             except Exception as exc:
-                st.error(f"No se pudo analizar el FITS: {exc}" if es else f"Could not analyse FITS: {exc}")
+                st.error(
+                    f"No se pudo analizar el FITS: {exc}" if es
+                    else f"Could not analyse the FITS file: {exc}"
+                )
     else:
         st.markdown(
-            '<div class="glass-card"><div class="mono">SUPPORTED FORMAT · FITS</div>'
+            '<div class="glass-card"><div class="mono">FITS · IMAGE EXPLORATION</div>'
             '<h3>Del archivo al análisis</h3>'
-            '<p>Sube una imagen FITS bidimensional para calcular estadísticas de píxeles finitos, '
-            'visualizar su distribución espacial y consultar la cabecera.</p></div>',
+            '<p>Sube una imagen FITS bidimensional para explorar estadísticas, '
+            'contraste lineal/logarítmico/asinh, histogramas y metadatos de cabecera.</p></div>',
             unsafe_allow_html=True,
         )
 

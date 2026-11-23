@@ -27,7 +27,7 @@ The project starts with ESA's **DR1-Foundation**, released on **12 November 2026
 - **Interactive app:** a small Streamlit gallery with source links and bilingual descriptions.
 - **Scientific notes:** concise introductions to the mission, dark matter, dark energy, gravitational lensing and spectroscopy.
 - **Python notebooks:** starter workflows for image inspection and simple measurements.
-- **Reusable code:** helpers to load FITS images and inspect image statistics.
+- **Reusable code:** helpers to load 2-D FITS images, inspect robust pixel statistics, calculate percentile display limits and apply linear, logarithmic or asinh intensity stretches.
 
 ### Quick start
 
@@ -66,7 +66,11 @@ The following previews are served by the official Euclid image archive. If an ar
 4. Record the image identifier, filter/band, units, pixel scale and archive query alongside any measurement.
 5. Separate observations from interpretation; cite the paper or data product behind every scientific claim.
 
-### Project status
+### Current version: v0.3.0
+
+FITS Lab now includes percentile-based contrast controls, linear/log/asinh display stretches, expanded pixel statistics, a histogram and FITS header inspection. See [release notes](docs/release-notes-v0.3.0.md).
+
+## Project status
 
 This is a **starter release**. It does not reproduce the Euclid pipeline, infer dark matter directly from a colour image, or claim new astronomical discoveries. The notebooks are educational starting points, not validated scientific pipelines.
 
@@ -85,7 +89,7 @@ La primera versión toma como punto de partida **DR1-Foundation**, publicada el 
 - **Aplicación interactiva:** pequeña galería Streamlit con descripciones bilingües y enlaces a las fuentes.
 - **Notas científicas:** introducciones a la misión, materia oscura, energía oscura, lentes gravitacionales y espectroscopia.
 - **Cuadernos Python:** primeros pasos para inspeccionar imágenes y realizar medidas sencillas.
-- **Código reutilizable:** funciones para cargar imágenes FITS y consultar estadísticas básicas.
+- **Código reutilizable:** funciones para cargar imágenes FITS 2D, consultar estadísticas robustas, calcular límites de contraste por percentiles y aplicar escalas lineal, logarítmica o asinh.
 
 ### Inicio rápido
 
@@ -130,9 +134,13 @@ euclid-lab/
     └── test_euclid_tools.py
 ```
 
-### Próximos hitos
+### Versión actual: v0.3.0
 
-- [ ] Añadir identificadores y metadatos de imágenes de forma sistemática.
+El FITS Lab incorpora controles de contraste por percentiles, escalas lineal/log/asinh, estadísticas ampliadas, histograma e inspección de cabecera FITS. Consulta las [notas de versión](docs/release-notes-v0.3.0.md).
+
+## Próximos hitos
+
+- [x] Añadir controles de visualización y estadísticas ampliadas para imágenes FITS 2D.
 - [ ] Conectar consultas reproducibles al archivo científico de Euclid.
 - [ ] Incorporar productos FITS públicos y análisis con unidades físicas.
 - [ ] Añadir visualización de catálogos y coordenadas celestes.
