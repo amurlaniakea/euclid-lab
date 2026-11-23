@@ -1,0 +1,6 @@
+streamlit>=1.37
+numpy>=1.26
+matplotlib>=3.8
+astropy>=6.0
+pillow>=10.0
+pytest>=8.0

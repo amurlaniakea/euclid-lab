@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use euclid-lab, please cite it using this metadata."
+title: "euclid-lab: Exploring the dark Universe with ESA's Euclid mission"
+type: software
+authors:
+  - family-names: "euclid-lab contributors"
+    given-names: "Community"
+version: 0.1.0
+date-released: 2026-11-23
+license: MIT
+repository-code: "https://github.com/<YOUR-GITHUB-USERNAME>/euclid-lab"
