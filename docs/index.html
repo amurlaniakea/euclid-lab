@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Euclid Lab — explore Euclid mission images, FITS data and astronomical analysis.">
+  <title>Euclid Lab — Explore the Universe</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #131f32;
+      --text: #edf3ff;
+      --muted: #a8b6ca;
+      --accent: #79c7ff;
+      --border: #293950;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 system-ui, -apple-system, Segoe UI, sans-serif;
+    }
+    a { color: var(--accent); }
+    .wrap { width: min(1080px, 90%); margin: auto; }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11,18,32,.94);
+    }
+    nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand { font-weight: 800; letter-spacing: .04em; color: white; }
+    .navlinks { display: flex; gap: 20px; align-items: center; }
+    .navlinks a { text-decoration: none; color: var(--muted); }
+    button {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 9px;
+      padding: 8px 13px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .hero { padding: 82px 0 65px; }
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 5.3rem);
+      line-height: 1.04;
+      letter-spacing: -.055em;
+      margin: 16px 0;
+    }
+    .lead { color: var(--muted); font-size: 1.18rem; max-width: 720px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 19px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: 700;
+      background: #d9efff;
+      color: #102033;
+    }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    section { padding: 48px 0; }
+    h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); letter-spacing: -.03em; }
+    .muted { color: var(--muted); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .card-content { padding: 20px; }
+    .card h3 { margin: 0 0 8px; }
+    .card p { color: var(--muted); margin: 0; }
+    .gallery img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #17263a;
+    }
+    .notice {
+      border-left: 3px solid var(--accent);
+      padding: 12px 18px;
+      background: #111e30;
+      color: var(--muted);
+      border-radius: 0 9px 9px 0;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    @media (max-width: 620px) {
+      .navlinks { gap: 10px; font-size: .9rem; }
+      .hero { padding-top: 55px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <div class="brand">EUCLID LAB</div>
+    <div class="navlinks">
+      <a href="#project" data-en="Project" data-es="Proyecto">Project</a>
+      <a href="#gallery" data-en="Gallery" data-es="Galería">Gallery</a>
+      <a href="#resources" data-en="Resources" data-es="Recursos">Resources</a>
+      <button id="language" type="button" aria-label="Change language">ES</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="eyebrow" data-en="An educational astronomy project" data-es="Un proyecto educativo de astronomía">An educational astronomy project</div>
+    <h1 data-en="Explore the universe with Euclid." data-es="Explora el universo con Euclid.">Explore the universe with Euclid.</h1>
+    <p class="lead" data-en="A bilingual open-source project to explore images and data from ESA's Euclid mission, learn about the science and experiment with astronomical image analysis."
+       data-es="Un proyecto bilingüe y de código abierto para explorar imágenes y datos de la misión Euclid de la ESA, conocer su ciencia y experimentar con el análisis de imágenes astronómicas.">
+      A bilingual open-source project to explore images and data from ESA's Euclid mission, learn about the science and experiment with astronomical image analysis.
+    </p>
+    <div class="actions">
+      <a class="btn" href="https://euclid-lab.streamlit.app/" target="_blank" rel="noopener"
+         data-en="Launch interactive app ↗" data-es="Abrir aplicación interactiva ↗">Launch interactive app ↗</a>
+      <a class="btn secondary" href="https://github.com/amurlaniakea/euclid-lab"
+         target="_blank" rel="noopener" data-en="View on GitHub ↗" data-es="Ver en GitHub ↗">View on GitHub ↗</a>
+    </div>
+  </section>
+
+  <section id="project" class="wrap">
+    <h2 data-en="A gateway to Euclid data" data-es="Una puerta a los datos de Euclid">A gateway to Euclid data</h2>
+    <p class="muted" data-en="Euclid Lab combines accessible scientific notes, Python resources and an interactive application for exploratory work with astronomical images."
+       data-es="Euclid Lab combina notas científicas accesibles, recursos en Python y una aplicación interactiva para trabajar de forma exploratoria con imágenes astronómicas.">
+      Euclid Lab combines accessible scientific notes, Python resources and an interactive application for exploratory work with astronomical images.
+    </p>
+    <div class="grid">
+      <article class="card"><div class="card-content">
+        <h3 data-en="Image exploration" data-es="Exploración de imágenes">Image exploration</h3>
+        <p data-en="Inspect FITS images, image statistics, histograms and contrast stretches."
+           data-es="Inspecciona imágenes FITS, estadísticas, histogramas y ajustes de contraste.">Inspect FITS images, image statistics, histograms and contrast stretches.</p>
+      </div></article>
+      <article class="card"><div class="card-content">
+        <h3 data-en="Source detection" data-es="Detección de fuentes">Source detection</h3>
+        <p data-en="Experiment with source detection and basic aperture photometry."
+           data-es="Experimenta con detección de fuentes y fotometría básica de apertura.">Experiment with source detection and basic aperture photometry.</p>
+      </div></article>
+      <article class="card"><div class="card-content">
+        <h3 data-en="FITS catalogues" data-es="Catálogos FITS">FITS catalogues</h3>
+        <p data-en="Explore catalogues and export detected-source tables as CSV or FITS."
+           data-es="Explora catálogos y exporta tablas de fuentes detectadas en CSV o FITS.">Explore catalogues and export detected-source tables as CSV or FITS.</p>
+      </div></article>
+    </div>
+  </section>
+
+  <section id="gallery" class="wrap">
+    <h2 data-en="Euclid image gallery" data-es="Galería de imágenes de Euclid">Euclid image gallery</h2>
+    <p class="muted" data-en="A selection of images from the official Euclid archive."
+       data-es="Una selección de imágenes del archivo oficial de Euclid.">A selection of images from the official Euclid archive.</p>
+    <div class="grid gallery">
+      <article class="card">
+        <img src="https://euclid.caltech.edu/download/AvmImage/86/binary/larger" alt="Euclid mission image 1" loading="lazy">
+        <div class="card-content"><p>Euclid — official image archive</p></div>
+      </article>
+      <article class="card">
+        <img src="https://euclid.caltech.edu/download/AvmImage/85/binary/larger" alt="Euclid mission image 2" loading="lazy">
+        <div class="card-content"><p>Euclid — official image archive</p></div>
+      </article>
+      <article class="card">
+        <img src="https://euclid.caltech.edu/download/AvmImage/90/binary/larger" alt="Euclid mission image 3" loading="lazy">
+        <div class="card-content"><p>Euclid — official image archive</p></div>
+      </article>
+      <article class="card">
+        <img src="https://euclid.caltech.edu/download/AvmImage/87/binary/larger" alt="Euclid mission image 4" loading="lazy">
+        <div class="card-content"><p>Euclid — official image archive</p></div>
+      </article>
+    </div>
+    <p class="muted" style="font-size:.85rem" data-en="Images are served by the official archive. Please retain the original credits and source information."
+       data-es="Las imágenes se sirven desde el archivo oficial. Consulta y conserva los créditos y la información de origen.">
+      Images are served by the official archive. Please retain the original credits and source information.
+    </p>
+  </section>
+
+  <section id="resources" class="wrap">
+    <h2 data-en="Explore the project" data-es="Explora el proyecto">Explore the project</h2>
+    <div class="grid">
+      <article class="card"><div class="card-content">
+        <h3 data-en="Release notes" data-es="Notas de versión">Release notes</h3>
+        <p><a href="https://github.com/amurlaniakea/euclid-lab/blob/main/docs/release-notes-v0.4.0.md">v0.4.0</a></p>
+      </div></article>
+      <article class="card"><div class="card-content">
+        <h3 data-en="Technical methods" data-es="Métodos técnicos">Technical methods</h3>
+        <p><a href="https://github.com/amurlaniakea/euclid-lab/blob/main/docs/technical-methods-v0.4.0.md"
+              data-en="Read the methods" data-es="Consultar los métodos">Read the methods</a></p>
+      </div></article>
+      <article class="card"><div class="card-content">
+        <h3 data-en="Source code" data-es="Código fuente">Source code</h3>
+        <p><a href="https://github.com/amurlaniakea/euclid-lab">GitHub repository</a></p>
+      </div></article>
+    </div>
+    <p class="notice" style="margin-top:24px"
+       data-en="Scientific note: this is an educational and exploratory application, not the official Euclid science pipeline. Source detection and aperture photometry are basic estimates, not calibrated scientific measurements."
+       data-es="Nota científica: esta es una aplicación educativa y exploratoria, no el pipeline científico oficial de Euclid. La detección de fuentes y la fotometría de apertura son estimaciones básicas, no medidas científicas calibradas.">
+      Scientific note: this is an educational and exploratory application, not the official Euclid science pipeline. Source detection and aperture photometry are basic estimates, not calibrated scientific measurements.
+    </p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Euclid Lab · Open source · AGPL-3.0-or-later</span>
+    <span> · <a href="https://github.com/amurlaniakea/euclid-lab">GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+  const button = document.getElementById("language");
+  let language = "en";
+
+  button.addEventListener("click", () => {
+    language = language === "en" ? "es" : "en";
+    document.documentElement.lang = language;
+    document.querySelectorAll("[data-en][data-es]").forEach(element => {
+      element.textContent = element.dataset[language];
+    });
+    button.textContent = language === "en" ? "ES" : "EN";
+  });
+</script>
+</body>
+</html>
