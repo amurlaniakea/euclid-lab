@@ -178,3 +178,9 @@ Issues and pull requests are welcome. Please include source URLs, image credits,
 ## Licence
 
 The **source code** in this repository is released under the GNU Affero General Public License v3.0 or any later version (AGPL-3.0-or-later). This does **not** grant rights to third-party images, logos, catalogues or mission data. Their original terms remain in force.
+
+## 📧 Contacto
+
+- **Autor**: Pedro Sordo Martínez
+- **e-mail**: amurlaniakea@gmail.com
+- **Hugging Face**: [MagoPredator](https://huggingface.co/MagoPredator)
