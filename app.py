@@ -1,23 +1,3 @@
-# SPDX-FileCopyrightText: 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-#
-# Copyright (C) 2026 Pedro Sordo Martínez
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public
-# License along with this program. If not, see
-# <https://www.gnu.org/licenses/>.
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -441,7 +421,83 @@ else:
     uploaded = st.file_uploader(
         "Selecciona un archivo FITS" if es else "Choose a FITS file",
         type=["fits", "fit", "fts"],
+        help=("Admite archivos FITS de hasta 200 MB. Consulta la guía si todavía no tienes uno."
+              if es else
+              "Accepts FITS files up to 200 MB. See the guide if you do not have one yet."),
     )
+
+    with st.expander(
+        "¿No tienes un archivo FITS? · Guía rápida" if es else
+        "Don't have a FITS file yet? · Quick guide",
+        expanded=uploaded is None,
+    ):
+        if es:
+            st.markdown(
+                """
+                Un archivo **FITS** (*Flexible Image Transport System*) es un formato habitual en astronomía. "
+                "Este laboratorio está pensado principalmente para **imágenes FITS bidimensionales** del cielo. "
+                "Puedes cargar archivos con extensión `.fits`, `.fit` o `.fts` (máximo **200 MB por archivo**).
+
+
+                **Dónde conseguir datos reales**
+
+
+                - [Archivo científico de Euclid (ESA)](https://eas.esac.esa.int/sas/) — busca productos de imagen de la misión Euclid.
+
+                - [NASA/IPAC IRSA](https://irsa.ipac.caltech.edu/) — archivo astronómico con datos de distintos sondeos.
+
+                - [Ejemplos FITS de NASA](https://fits.gsfc.nasa.gov/fits_samples.html) — archivos de muestra para hacer pruebas.
+
+
+                **Qué elegir para empezar**
+
+
+                1. Busca un producto de tipo **imagen** (*image* o *mosaic*), no solamente una tabla o catálogo.
+
+                2. Si el archivo es muy grande, busca un recorte (*cutout*) de una zona del cielo que no supere 200 MB.
+
+                3. Descarga el archivo FITS y conserva su nombre y la información de procedencia.
+
+                4. Vuelve al selector de arriba, elige el archivo y espera a que se procese.
+
+
+                **Nota:** algunos FITS contienen varias extensiones (HDU) o tablas. Esta herramienta necesita una imagen que pueda interpretarse como una matriz bidimensional; no todos los productos FITS sirven para este análisis. Comprueba también las condiciones de uso y atribución del archivo en el archivo de origen.
+                """
+            )
+        else:
+            st.markdown(
+                """
+                A **FITS** (*Flexible Image Transport System*) file is a standard format in astronomy. "
+                "This laboratory is primarily designed for **two-dimensional astronomical FITS images**. "
+                "You can upload `.fits`, `.fit` or `.fts` files (maximum **200 MB per file**).
+
+
+                **Where to get real data**
+
+
+                - [Euclid Science Archive (ESA)](https://eas.esac.esa.int/sas/) — search for Euclid mission image products.
+
+                - [NASA/IPAC IRSA](https://irsa.ipac.caltech.edu/) — an astronomical archive containing data from several surveys.
+
+                - [NASA FITS samples](https://fits.gsfc.nasa.gov/fits_samples.html) — sample files for testing.
+
+
+                **What to choose first**
+
+
+                1. Look for an **image** or **mosaic** product, not just a table or catalogue.
+
+                2. If the file is too large, look for a sky-region *cutout* smaller than 200 MB.
+
+                3. Download the FITS file and keep its filename and provenance information.
+
+                4. Return to the uploader above, select the file and wait for processing.
+
+
+                **Note:** some FITS files contain multiple extensions (HDUs) or tables. This tool needs an image that can be interpreted as a two-dimensional array; not every FITS product is suitable for this analysis. Also check the source archive for usage and attribution conditions.
+                """
+            )
+
     if uploaded is not None:
         import tempfile
         import numpy as np
