@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "euclid-lab"
-version = "0.3.0"
+version = "0.4.0"
 description = "Educational FITS image and catalogue utilities for Euclid Lab"
 readme = "README.md"
 license = "AGPL-3.0-or-later"

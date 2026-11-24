@@ -26,22 +26,29 @@ The project starts with ESA's **DR1-Foundation**, released on **12 November 2026
 ### What is inside?
 
 - **Image gallery:** selected official Euclid images, with source links and attribution. Images are linked from the official archive rather than copied into this repository.
-- **Interactive app:** a small Streamlit gallery with source links and bilingual descriptions.
+- **Interactive app:** a bilingual Streamlit application with an image gallery, advanced FITS image laboratory, source detection and catalogue exploration.
 - **Scientific notes:** concise introductions to the mission, dark matter, dark energy, gravitational lensing and spectroscopy.
-- **Python notebooks:** starter workflows for image inspection and simple measurements.
-- **Reusable code:** helpers to load 2-D FITS images, inspect robust pixel statistics, calculate percentile display limits and apply linear, logarithmic or asinh intensity stretches.
+- **Python notebooks:** reproducible starting points for image inspection and exploratory analysis.
+- **Reusable code:** tools to load and inspect 2-D FITS images, calculate robust image statistics, detect sources, perform basic aperture photometry and read FITS catalogues.
+- **Data export:** detected-source catalogues can be exported in CSV and FITS formats.
 
 ### Quick start
 
 ```bash
-git clone https://github.com/<YOUR-GITHUB-USERNAME>/euclid-lab.git
+git clone https://github.com/amurlaniakea/euclid-lab.git
 cd euclid-lab
 
 python -m venv .venv
-# Windows: .venv\Scripts\activate
+# Linux / macOS / WSL:
 source .venv/bin/activate
 
-pip install -r requirements.txt
+# Windows PowerShell:
+# .\.venv\Scripts\Activate.ps1
+
+# Windows CMD:
+# .venv\Scripts\activate.bat
+
+python -m pip install -r requirements.txt
 streamlit run app.py
 ```
 
@@ -68,13 +75,13 @@ The following previews are served by the official Euclid image archive. If an ar
 4. Record the image identifier, filter/band, units, pixel scale and archive query alongside any measurement.
 5. Separate observations from interpretation; cite the paper or data product behind every scientific claim.
 
-### Current version: v0.3.0
+### Current version: v0.4.0
 
-FITS Lab now includes percentile-based contrast controls, linear/log/asinh display stretches, expanded pixel statistics, a histogram and FITS header inspection. See [release notes](docs/release-notes-v0.3.0.md).
+The application now includes source detection, basic aperture photometry, a FITS catalogue explorer and CSV/FITS export, alongside the advanced FITS image laboratory. See the [v0.4.0 release notes](docs/release-notes-v0.4.0.md) and [technical methods](docs/technical-methods-v0.4.0.md).
 
 ## Project status
 
-This is a **starter release**. It does not reproduce the Euclid pipeline, infer dark matter directly from a colour image, or claim new astronomical discoveries. The notebooks are educational starting points, not validated scientific pipelines.
+This is an educational and exploratory application. It does not reproduce the Euclid science pipeline, infer dark matter directly from a colour image, or claim new astronomical discoveries. Source detection and photometry are basic exploratory estimates, not calibrated scientific measurements. The notebooks are educational resources, not validated scientific pipelines.
 
 ---
 
@@ -88,22 +95,29 @@ La primera versión toma como punto de partida **DR1-Foundation**, publicada el 
 ### ¿Qué contiene?
 
 - **Galería de imágenes:** selección de imágenes oficiales de Euclid con enlaces y créditos. Se enlazan desde el archivo oficial; no se copian al repositorio.
-- **Aplicación interactiva:** pequeña galería Streamlit con descripciones bilingües y enlaces a las fuentes.
+- **Aplicación interactiva:** aplicación Streamlit bilingüe con galería de imágenes, laboratorio avanzado de imágenes FITS, detección de fuentes y exploración de catálogos.
 - **Notas científicas:** introducciones a la misión, materia oscura, energía oscura, lentes gravitacionales y espectroscopia.
-- **Cuadernos Python:** primeros pasos para inspeccionar imágenes y realizar medidas sencillas.
-- **Código reutilizable:** funciones para cargar imágenes FITS 2D, consultar estadísticas robustas, calcular límites de contraste por percentiles y aplicar escalas lineal, logarítmica o asinh.
+- **Cuadernos Python:** puntos de partida reproducibles para inspeccionar imágenes y realizar análisis exploratorios.
+- **Código reutilizable:** herramientas para cargar y analizar imágenes FITS 2D, calcular estadísticas robustas, detectar fuentes, realizar fotometría básica de apertura y leer catálogos FITS.
+- **Exportación de datos:** los catálogos de fuentes detectadas se pueden exportar en formatos CSV y FITS.
 
 ### Inicio rápido
 
 ```bash
-git clone https://github.com/<TU-USUARIO-DE-GITHUB>/euclid-lab.git
+git clone https://github.com/amurlaniakea/euclid-lab.git
 cd euclid-lab
 
 python -m venv .venv
-# Windows: .venv\Scripts\activate
+# Linux / macOS / WSL:
 source .venv/bin/activate
 
-pip install -r requirements.txt
+# Windows PowerShell:
+# .\.venv\Scripts\Activate.ps1
+
+# Windows CMD:
+# .venv\Scripts\activate.bat
+
+python -m pip install -r requirements.txt
 streamlit run app.py
 ```
 
@@ -136,17 +150,19 @@ euclid-lab/
     └── test_euclid_tools.py
 ```
 
-### Versión actual: v0.3.0
+### Versión actual: v0.4.0
 
-El FITS Lab incorpora controles de contraste por percentiles, escalas lineal/log/asinh, estadísticas ampliadas, histograma e inspección de cabecera FITS. Consulta las [notas de versión](docs/release-notes-v0.3.0.md).
+La aplicación incorpora detección de fuentes, fotometría básica de apertura, un explorador de catálogos FITS y exportación CSV/FITS, además del laboratorio avanzado de imágenes FITS. Consulta las [notas de la versión 0.4.0](docs/release-notes-v0.4.0.md) y los [métodos técnicos](docs/technical-methods-v0.4.0.md).
 
 ## Próximos hitos
 
 - [x] Añadir controles de visualización y estadísticas ampliadas para imágenes FITS 2D.
+- [x] Incorporar detección de fuentes y fotometría básica de apertura.
+- [x] Añadir exploración de catálogos FITS y exportación CSV/FITS.
+- [x] Publicar la aplicación Streamlit.
 - [ ] Conectar consultas reproducibles al archivo científico de Euclid.
 - [ ] Incorporar productos FITS públicos y análisis con unidades físicas.
-- [ ] Añadir visualización de catálogos y coordenadas celestes.
-- [ ] Preparar una versión publicada de la app.
+- [ ] Ampliar la visualización de catálogos y coordenadas celestes.
 
 ---
 
