@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Euclid Lab — an open educational observatory for Euclid FITS images, source detection and catalogues.">
+<title>Euclid Lab — A digital observatory</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><a class="brand" href="./">✦ EUCLID LAB</a><nav><a href="#features">Features</a><a href="#science">Science</a><a href="#start">Get started</a><a href="#es">Español</a></nav></header>
+<main>
+<section class="hero"><p class="eyebrow">OPEN SCIENCE · ESA EUCLID MISSION</p><h1>Exploring the<br><em>dark Universe.</em></h1><p class="lead">A bilingual digital observatory for exploring Euclid imagery, inspecting FITS data, detecting sources and browsing astronomical catalogues.</p><div class="actions"><a class="button primary" href="https://euclid-lab.streamlit.app/">Launch live app ↗</a><a class="button" href="https://github.com/amurlaniakea/euclid-lab">View source on GitHub ↗</a></div><p class="note">Interactive app hosted separately on Streamlit Community Cloud.</p></section>
+<section id="features"><p class="eyebrow">01 / THE TOOLKIT</p><h2>From image to measurement.</h2><div class="cards"><article><b>01</b><h3>FITS image lab</h3><p>Explore 2-D images with percentile contrast, linear/log/asinh stretches, histograms and FITS metadata.</p></article><article><b>02</b><h3>Source detection</h3><p>Find connected above-threshold regions and inspect pixel centroids and simple source measurements.</p></article><article><b>03</b><h3>Aperture photometry</h3><p>Estimate background-subtracted flux with a circular aperture and a local annulus.</p></article><article><b>04</b><h3>FITS catalogues</h3><p>Preview binary-table extensions and export detected-source tables to CSV or FITS.</p></article></div></section>
+<section id="science"><p class="eyebrow">02 / SCIENCE</p><h2>Euclid and the dark Universe.</h2><p class="body">Euclid is designed to investigate the geometry and expansion history of the Universe, mapping galaxies and cosmic structure across space and time. Euclid Lab is an educational companion: it helps users explore data products and learn reproducible analysis concepts.</p><p class="note">Measurements are exploratory and uncalibrated. This project is not an official ESA/Euclid product or a replacement for the mission science pipeline.</p></section>
+<section id="start"><p class="eyebrow">03 / OPEN SOURCE</p><h2>Run it on your machine.</h2><pre><code>git clone https://github.com/amurlaniakea/euclid-lab.git
+cd euclid-lab
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest -q
+streamlit run app.py</code></pre><div class="actions"><a class="button primary" href="https://github.com/amurlaniakea/euclid-lab">GitHub repository ↗</a><a class="button" href="https://github.com/amurlaniakea/euclid-lab/blob/main/README.md">Documentation ↗</a></div></section>
+<section id="es" lang="es"><p class="eyebrow">04 / EN ESPAÑOL</p><h2>Explora el universo oscuro.</h2><p class="body">Euclid Lab es un observatorio digital educativo para explorar imágenes FITS, detectar fuentes astronómicas, realizar fotometría de apertura básica y consultar catálogos FITS. Incluye una interfaz Streamlit en español e inglés.</p><p class="body">La detección y la fotometría son aproximaciones exploratorias, no mediciones calibradas ni un sustituto del pipeline científico de Euclid.</p><div class="actions"><a class="button primary" href="https://euclid-lab.streamlit.app/">Abrir la aplicación ↗</a><a class="button" href="https://github.com/amurlaniakea/euclid-lab">Código fuente ↗</a></div></section>
+</main><footer>EUCLID LAB · OPEN SCIENCE STARTER PROJECT · SOURCE CODE AGPL-3.0-OR-LATER · NOT AN OFFICIAL ESA PRODUCT</footer>
+</body></html>
