@@ -116,8 +116,8 @@ with st.sidebar:
     st.caption("A digital observatory · Un observatorio digital")
     language = st.selectbox("Language / Idioma", ["Español", "English"], index=0)
     es = language == "Español"
-    pages = ["Observatorio", "Galería", "Ciencia", "Laboratorio"] if es else [
-        "Observatory", "Gallery", "Science", "Laboratory"
+    pages = ["Observatorio", "Galería", "Ciencia", "Laboratorio", "Fuentes y catálogos"] if es else [
+        "Observatory", "Gallery", "Science", "Laboratory", "Sources & catalogues"
     ]
     page = st.radio("Navegación / Navigation", pages, label_visibility="collapsed")
     st.divider()
@@ -298,6 +298,114 @@ elif page == pages[2]:
         st.markdown(path.read_text(encoding="utf-8"))
     else:
         st.warning("No se encontró la nota seleccionada." if es else "The selected note was not found.")
+
+# ---------- Source detection and catalogues ----------
+elif page == pages[4]:
+    from io import BytesIO
+    import tempfile
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from astropy.io import fits
+    from src.euclid_tools import (
+        load_fits_image, detect_sources, aperture_photometry, read_fits_catalogues, sources_to_table
+    )
+
+    heading(
+        "06 / SOURCE ANALYSIS",
+        "Detección de fuentes y catálogos" if es else "Source detection & catalogues",
+        "Detección por umbral, fotometría de apertura y lectura de tablas FITS. "
+        "Resultados exploratorios, no calibrados." if es else
+        "Threshold-based detection, aperture photometry and FITS table inspection. "
+        "Exploratory, uncalibrated results."
+    )
+    uploaded_image = st.file_uploader(
+        "Imagen FITS 2D" if es else "2-D FITS image", type=["fits", "fit", "fts"], key="source_image"
+    )
+    if uploaded_image is not None:
+        with tempfile.NamedTemporaryFile(suffix=".fits") as tmp:
+            tmp.write(uploaded_image.getvalue())
+            tmp.flush()
+            try:
+                data, header = load_fits_image(tmp.name)
+                c1, c2 = st.columns(2)
+                with c1:
+                    threshold_sigma = st.number_input(
+                        "Umbral (sigma)" if es else "Detection threshold (sigma)",
+                        min_value=1.0, max_value=20.0, value=5.0, step=0.5
+                    )
+                with c2:
+                    min_pixels = st.number_input(
+                        "Píxeles mínimos" if es else "Minimum connected pixels",
+                        min_value=1, max_value=100, value=3, step=1
+                    )
+                sources = detect_sources(data, threshold_sigma, int(min_pixels))
+                st.metric("Fuentes detectadas" if es else "Detected sources", len(sources))
+                fig, ax = plt.subplots(figsize=(10, 7))
+                finite = data[np.isfinite(data)]
+                lo, hi = np.percentile(finite, [1, 99])
+                ax.imshow(data, origin="lower", cmap="magma", vmin=lo, vmax=hi)
+                if sources:
+                    ax.scatter([s["xcentroid"] for s in sources], [s["ycentroid"] for s in sources],
+                               s=55, facecolors="none", edgecolors="cyan", linewidths=1)
+                    for source in sources:
+                        ax.annotate(str(source["source_id"]), (source["xcentroid"], source["ycentroid"]),
+                                    color="white", fontsize=7)
+                ax.set_title("Detected sources · zero-based pixel coordinates")
+                ax.set_xlabel("X pixel"); ax.set_ylabel("Y pixel")
+                fig.tight_layout()
+                st.pyplot(fig); plt.close(fig)
+                if sources:
+                    st.dataframe(sources, use_container_width=True)
+                    table = sources_to_table(sources)
+                    csv_buffer = BytesIO()
+                    table.write(csv_buffer, format="csv", overwrite=True)
+                    fits_buffer = BytesIO()
+                    fits.HDUList([fits.PrimaryHDU(), fits.BinTableHDU(table, name="SOURCES")]).writeto(
+                        fits_buffer, overwrite=True
+                    )
+                    d1, d2 = st.columns(2)
+                    d1.download_button("Exportar CSV" if es else "Export CSV",
+                        csv_buffer.getvalue(), "euclid_sources.csv", "text/csv")
+                    d2.download_button("Exportar FITS" if es else "Export FITS",
+                        fits_buffer.getvalue(), "euclid_sources.fits", "application/fits")
+                    st.markdown("#### " + ("Fotometría de apertura" if es else "Aperture photometry"))
+                    selected_id = st.selectbox(
+                        "Fuente" if es else "Source",
+                        [int(s["source_id"]) for s in sources]
+                    )
+                    radius = st.slider("Radio de apertura (px)" if es else "Aperture radius (px)",
+                                       1.0, 20.0, 4.0, 0.5)
+                    selected = sources[selected_id - 1]
+                    phot = aperture_photometry(data, selected["xcentroid"], selected["ycentroid"], radius)
+                    st.json(phot)
+                else:
+                    st.info("No se detectaron fuentes con estos parámetros." if es else
+                            "No sources found with these settings.")
+            except Exception as exc:
+                st.error(f"No se pudo analizar la imagen: {exc}" if es else
+                         f"Could not analyse image: {exc}")
+    st.divider()
+    st.markdown("#### " + ("Explorador de catálogos FITS" if es else "FITS catalogue explorer"))
+    uploaded_catalogue = st.file_uploader(
+        "Tabla FITS" if es else "FITS table", type=["fits", "fit", "fts"], key="fits_catalogue"
+    )
+    if uploaded_catalogue is not None:
+        with tempfile.NamedTemporaryFile(suffix=".fits") as tmp:
+            tmp.write(uploaded_catalogue.getvalue()); tmp.flush()
+            try:
+                catalogues = read_fits_catalogues(tmp.name)
+                if not catalogues:
+                    st.warning("No se encontraron extensiones de tabla." if es else
+                               "No table extensions were found.")
+                for catalogue in catalogues:
+                    st.subheader(f"HDU {catalogue['hdu_index']} · {catalogue['name']}")
+                    st.caption(f"{catalogue['n_rows']} filas · {len(catalogue['columns'])} columnas"
+                               if es else
+                               f"{catalogue['n_rows']} rows · {len(catalogue['columns'])} columns")
+                    st.dataframe(catalogue["rows"], use_container_width=True)
+            except Exception as exc:
+                st.error(f"No se pudo leer el catálogo: {exc}" if es else
+                         f"Could not read catalogue: {exc}")
 
 # ---------- Laboratory ----------
 else:

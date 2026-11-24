@@ -1,219 +1,180 @@
+
 <div align="center">
 
-# 🌌 Euclid Lab
+# 🌌 euclid-lab
 ### Exploring the dark Universe with ESA's Euclid mission
 
 <p><strong><a href="https://euclid-lab.streamlit.app/">🚀 Live Demo: https://euclid-lab.streamlit.app/</a></strong></p>
 
-[![Tests](https://github.com/amurlaniakea/euclid-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/amurlaniakea/euclid-lab/actions/workflows/tests.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/version-0.4.0-6c63ff)](https://github.com/amurlaniakea/euclid-lab/releases)
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)](LICENSE)
+[![Mission](https://img.shields.io/badge/Mission-ESA%20Euclid-172554)](https://www.esa.int/Science_Exploration/Space_Science/Euclid)
 
-**A bilingual (English / Español) educational observatory for Euclid imagery, FITS image analysis, source detection and catalogue exploration.**
+**A bilingual (English / Español) open-science project combining an image gallery, scientific notes and reproducible Python experiments.**
 
-[Live app](https://euclid-lab.streamlit.app/) · [Project website](https://amurlaniakea.github.io/euclid-lab/) · [English](#english) · [Español](#español)
+[English](#english) · [Español](#español) · [Image credits](#image-credits) · [Data sources](#data--official-sources)
 
 </div>
-
-> **Live application:** [euclid-lab.streamlit.app](https://euclid-lab.streamlit.app/). The interactive Python application runs on Streamlit Community Cloud; the project website is published separately as a static GitHub Pages site.
 
 <a id="english"></a>
 ## English
 
-Euclid Lab is an open-source learning project about ESA's Euclid space telescope and the dark Universe. It combines a bilingual Streamlit interface, introductory science notes, notebooks and reusable Python utilities.
+`euclid-lab` is an educational and exploratory repository about the **Euclid space telescope** and its mission to investigate the dark Universe: dark matter, dark energy and the large-scale structure of the cosmos.
 
-### Features in v0.4.0
+The project starts with ESA's **DR1-Foundation**, released on **12 November 2026**. This first major release covers approximately **1,900 square degrees**, includes observations of more than **900 million galaxies**, around **15,000 strong-lensing candidates**, and spectra for more than **160 million sources**. These are release-level figures; they are not measurements produced by this repository.
 
-- **Observatory and gallery:** curated links to official Euclid imagery.
-- **Science notes:** dark matter, dark energy, gravitational lensing and spectroscopy.
-- **FITS image laboratory:** 2-D image inspection, statistics, histogram, FITS header and linear/log/asinh display stretches.
-- **Source detection:** configurable threshold in robust background sigma and connected-pixel footprint; centroids and simple source measurements.
-- **Aperture photometry:** circular aperture and local annulus background estimate.
-- **FITS catalogue explorer:** inspect binary-table extensions and preview rows.
-- **Export:** detected-source tables as CSV or FITS.
-- **Bilingual interface:** Spanish and English.
+### What is inside?
 
-### Quick start — Linux / WSL
+- **Image gallery:** selected official Euclid images, with source links and attribution. Images are linked from the official archive rather than copied into this repository.
+- **Interactive app:** a small Streamlit gallery with source links and bilingual descriptions.
+- **Scientific notes:** concise introductions to the mission, dark matter, dark energy, gravitational lensing and spectroscopy.
+- **Python notebooks:** starter workflows for image inspection and simple measurements.
+- **Reusable code:** helpers to load 2-D FITS images, inspect robust pixel statistics, calculate percentile display limits and apply linear, logarithmic or asinh intensity stretches.
+
+### Quick start
 
 ```bash
-git clone https://github.com/amurlaniakea/euclid-lab.git
+git clone https://github.com/<YOUR-GITHUB-USERNAME>/euclid-lab.git
 cd euclid-lab
 
-python3 -m venv .venv
+python -m venv .venv
+# Windows: .venv\Scripts\activate
 source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
 
-pytest -q
+pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Open `http://localhost:8501` in your browser.
+Open the local URL printed by Streamlit (usually `http://localhost:8501`).
 
-### Windows PowerShell
+### Explore the official imagery
 
-```powershell
-git clone https://github.com/amurlaniakea/euclid-lab.git
-cd euclid-lab
+The following previews are served by the official Euclid image archive. If an archive endpoint changes, use the linked source page to find the current image download.
 
-py -3 -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+| Subject | Preview | Official source |
+|---|---|---|
+| Messier 81 galaxy group | ![Euclid M81 group](https://euclid.caltech.edu/download/AvmImage/86/binary/larger) | [Image record](https://euclid.caltech.edu/images) |
+| Ring galaxy NGC 1291 | ![Euclid NGC 1291](https://euclid.caltech.edu/download/AvmImage/85/binary/larger) | [Image record](https://euclid.caltech.edu/images) |
+| DR1 strong-lens candidates | ![Euclid lens candidates](https://euclid.caltech.edu/download/AvmImage/90/binary/larger) | [Image record](https://euclid.caltech.edu/images) |
+| Northern sky mosaic | ![Euclid northern mosaic](https://euclid.caltech.edu/download/AvmImage/87/binary/larger) | [Image record](https://euclid.caltech.edu/images) |
 
-pytest -q
-streamlit run app.py
-```
+> **Image rights:** the images above are not relicensed by this repository. Check the licence and credit line on each official image record before downloading, redistributing, modifying or rehosting it. This project links to the archive to preserve provenance and avoid silently changing image terms.
 
-If PowerShell blocks activation, use `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` and `.\.venv\Scripts\streamlit.exe run app.py`.
+### Suggested workflow
 
-### Update an existing clone
+1. Browse the image archive and select a science target.
+2. Read the relevant note in `docs/`.
+3. Open a notebook in `notebooks/`.
+4. Record the image identifier, filter/band, units, pixel scale and archive query alongside any measurement.
+5. Separate observations from interpretation; cite the paper or data product behind every scientific claim.
 
-```bash
-cd euclid-lab
-git switch main
-git pull --ff-only
-source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-pytest -q
-```
+### Current version: v0.3.0
 
-### Repository layout
+FITS Lab now includes percentile-based contrast controls, linear/log/asinh display stretches, expanded pixel statistics, a histogram and FITS header inspection. See [release notes](docs/release-notes-v0.3.0.md).
 
-```text
-euclid-lab/
-├── .github/workflows/       # CI tests and GitHub Pages deployment
-├── app.py                  # Streamlit application
-├── assets/                 # image-source register; no unlicensed image copies
-├── docs/                   # science notes and release notes
-├── notebooks/              # exploratory notebooks
-├── site/                   # static GitHub Pages website
-├── src/euclid_tools.py     # FITS, detection, photometry and catalogue helpers
-├── tests/                  # automated tests
-├── requirements.txt
-└── README.md
-```
+## Project status
 
-### Scientific scope and limitations
-
-This is an educational prototype, not the Euclid science pipeline. Source detection uses a global median/MAD background and connected components; it does not deblend sources or model spatially varying backgrounds. Aperture photometry is not calibrated and does not apply gain, exposure time, zero point, aperture corrections, masks, variance propagation or WCS conversion. Instrumental magnitudes are not calibrated magnitudes. Pixel coordinates are zero-based `(x, y)` positions. Inspect FITS metadata, units and product documentation before interpreting measurements scientifically.
-
-See [v0.4.0 release notes](docs/release-notes-v0.4.0.md).
+This is a **starter release**. It does not reproduce the Euclid pipeline, infer dark matter directly from a colour image, or claim new astronomical discoveries. The notebooks are educational starting points, not validated scientific pipelines.
 
 ---
 
 <a id="español"></a>
 ## Español
 
-Euclid Lab es un proyecto educativo de código abierto sobre el telescopio espacial Euclid de la ESA y el universo oscuro. Reúne una aplicación Streamlit bilingüe, notas científicas introductorias, cuadernos Jupyter y utilidades Python reutilizables.
+`euclid-lab` es un repositorio educativo y experimental dedicado al **telescopio espacial Euclid** y a su misión de investigar el universo oscuro: materia oscura, energía oscura y estructura a gran escala del cosmos.
 
-### Novedades de v0.4.0
+La primera versión toma como punto de partida **DR1-Foundation**, publicada el **12 de noviembre de 2026**. Esta primera gran entrega cubre aproximadamente **1.900 grados cuadrados**, incluye observaciones de más de **900 millones de galaxias**, alrededor de **15.000 candidatos a lentes gravitacionales fuertes** y espectros de más de **160 millones de fuentes**. Son cifras de la publicación de datos, no resultados calculados por este repositorio.
 
-- **Observatorio y galería:** enlaces seleccionados a imágenes oficiales de Euclid.
-- **Notas científicas:** materia oscura, energía oscura, lentes gravitacionales y espectroscopia.
-- **Laboratorio FITS:** inspección de imágenes 2D, estadísticas, histogramas, cabeceras y escalas lineal/log/asinh.
-- **Detección de fuentes:** umbral configurable respecto al fondo robusto y tamaño mínimo de píxel conectado; centroides y medidas básicas.
-- **Fotometría de apertura:** apertura circular y estimación del fondo mediante un anillo local.
-- **Explorador de catálogos FITS:** lectura de extensiones de tablas binarias y vista previa de filas.
-- **Exportación:** tablas de fuentes detectadas en CSV o FITS.
-- **Interfaz bilingüe:** español e inglés.
+### ¿Qué contiene?
 
-### Inicio rápido — Linux / WSL
+- **Galería de imágenes:** selección de imágenes oficiales de Euclid con enlaces y créditos. Se enlazan desde el archivo oficial; no se copian al repositorio.
+- **Aplicación interactiva:** pequeña galería Streamlit con descripciones bilingües y enlaces a las fuentes.
+- **Notas científicas:** introducciones a la misión, materia oscura, energía oscura, lentes gravitacionales y espectroscopia.
+- **Cuadernos Python:** primeros pasos para inspeccionar imágenes y realizar medidas sencillas.
+- **Código reutilizable:** funciones para cargar imágenes FITS 2D, consultar estadísticas robustas, calcular límites de contraste por percentiles y aplicar escalas lineal, logarítmica o asinh.
+
+### Inicio rápido
 
 ```bash
-git clone https://github.com/amurlaniakea/euclid-lab.git
+git clone https://github.com/<TU-USUARIO-DE-GITHUB>/euclid-lab.git
 cd euclid-lab
 
-python3 -m venv .venv
+python -m venv .venv
+# Windows: .venv\Scripts\activate
 source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
 
-pytest -q
+pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Abre `http://localhost:8501` en el navegador.
+Abre la dirección local que indique Streamlit (normalmente `http://localhost:8501`).
 
-### Windows PowerShell
+### Estructura
 
-```powershell
-git clone https://github.com/amurlaniakea/euclid-lab.git
-cd euclid-lab
-
-py -3 -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-
-pytest -q
-streamlit run app.py
+```text
+euclid-lab/
+├── app.py
+├── README.md
+├── LICENSE
+├── CITATION.cff
+├── requirements.txt
+├── assets/
+│   ├── images/                 # No se redistribuyen imágenes sin verificar licencia
+│   └── image_sources.csv       # Registro de fuentes y atribuciones
+├── docs/
+│   ├── mission.md
+│   ├── dark-matter.md
+│   ├── dark-energy.md
+│   ├── gravitational-lensing.md
+│   └── spectroscopy.md
+├── notebooks/
+│   ├── 01_image_exploration.ipynb
+│   └── 02_fits_image_analysis.ipynb
+├── src/
+│   └── euclid_tools.py
+└── tests/
+    └── test_euclid_tools.py
 ```
 
-Si PowerShell impide activar el entorno, puedes usar directamente `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` y `.\.venv\Scripts\streamlit.exe run app.py`.
+### Versión actual: v0.3.0
 
-### Actualizar una copia existente
+El FITS Lab incorpora controles de contraste por percentiles, escalas lineal/log/asinh, estadísticas ampliadas, histograma e inspección de cabecera FITS. Consulta las [notas de versión](docs/release-notes-v0.3.0.md).
 
-```bash
-cd euclid-lab
-git switch main
-git pull --ff-only
-source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-pytest -q
-```
+## Próximos hitos
 
-### Alcance y limitaciones científicas
-
-Es un prototipo educativo, no el pipeline científico de Euclid. La detección emplea un fondo global mediana/MAD y componentes conectados; no separa fuentes solapadas ni modela fondos espaciales variables. La fotometría no está calibrada: no aplica ganancia, tiempo de exposición, punto cero, correcciones de apertura, máscaras, propagación de varianza ni conversión WCS. Las magnitudes instrumentales no son magnitudes astronómicas calibradas. Las coordenadas de píxel `(x, y)` empiezan en cero. Antes de interpretar resultados, comprueba las unidades, metadatos y documentación del producto FITS.
-
-Consulta las [notas de versión v0.4.0](docs/release-notes-v0.4.0.md).
+- [x] Añadir controles de visualización y estadísticas ampliadas para imágenes FITS 2D.
+- [ ] Conectar consultas reproducibles al archivo científico de Euclid.
+- [ ] Incorporar productos FITS públicos y análisis con unidades físicas.
+- [ ] Añadir visualización de catálogos y coordenadas celestes.
+- [ ] Preparar una versión publicada de la app.
 
 ---
 
-## Deployment
+## Image credits
 
-### 1. Streamlit Community Cloud — interactive Python app
+The selected image records are from the **Euclid NASA/IPAC image archive**, which presents imagery from ESA's Euclid mission and the Euclid Consortium.
 
-1. Push this repository to GitHub.
-2. Sign in to [Streamlit Community Cloud](https://share.streamlit.io/) with the GitHub account that can access this repository.
-3. Choose **Create app**, repository `amurlaniakea/euclid-lab`, branch `main`, main file `app.py`.
-4. Deploy. The service installs dependencies from `requirements.txt`.
-5. The public application is available at [https://euclid-lab.streamlit.app/](https://euclid-lab.streamlit.app/). If you change the app subdomain, update the Live Demo links in this README and in `site/index.html`.
+Known image credit line used on the DR1-Foundation imagery includes:
 
-The app is not hosted by GitHub Pages.
+> ESA/Euclid/Euclid Consortium/NASA, image processing by J.-C. Cuillandre and E. Bertin.
 
-### 2. GitHub Pages — static project website
+**Important:** credit lines and licences can differ by image. Always use the exact credit and licence shown on the individual archive record. Some DR1-Foundation material is marked **CC BY-SA 3.0 IGO or ESA Standard Licence**; the Euclid Consortium's NGC 1291 record has also displayed **CC BY-NC 3.0**. Do not assume one licence applies to every image.
 
-1. Push the repository including `site/` and `.github/workflows/pages.yml`.
-2. In GitHub open **Settings → Pages**.
-3. Under **Build and deployment → Source**, select **GitHub Actions**.
-4. Open the **Actions** tab and check the `Deploy GitHub Pages` workflow.
-5. When it completes successfully, the static site should be available at `https://amurlaniakea.github.io/euclid-lab/`.
-
-The Pages workflow deploys only the static files in `site/`; it does not run Streamlit.
-
-## Tests
-
-```bash
-pytest -q
-```
-
-GitHub Actions runs the test suite on pushes and pull requests to `main`.
-
-## Official mission and data links
+## Data & official sources
 
 - [ESA — Euclid mission](https://www.esa.int/Science_Exploration/Space_Science/Euclid)
-- [Euclid NASA/IPAC image archive](https://euclid.caltech.edu/images)
-- [ESA Euclid Archive / Euclid Data Space](https://eas.esa.int/)
+- [ESA — DR1-Foundation announcement (12 Nov 2026)](https://www.esa.int/articles/about-us/directorates/science/euclid/euclid-lays-the-foundation-for-its-best-ever-3d-map-of-the-universe)
+- [ESA — 500-gigapixel northern mosaic](https://www.esa.int/media/about-us/directorates/science/euclid/zoom-into-euclid-s-500-gigapixel-mosaic-of-the-universe)
+- [Euclid NASA/IPAC — image archive](https://euclid.caltech.edu/images)
+- [Euclid Consortium — DR1-Foundation](https://euclid-ec.net/)
+- [ESA — Euclid Data Space](https://eas.esac.esa.int/)
 - [Astropy documentation](https://docs.astropy.org/)
 - [Astropy FITS documentation](https://docs.astropy.org/en/stable/io/fits/)
 
-## Image credits and licence
-
-Image URLs are linked from the official archive; this repository does not relicense third-party imagery. Check each image record for its specific credit and licence. Source code is licensed under the **GNU Affero General Public License v3.0 or any later version (AGPL-3.0-or-later)**; see [LICENSE](LICENSE) and the [official licence text](https://www.gnu.org/licenses/agpl-3.0.html). This licence does not apply to third-party images, logos or mission data.
-
 ## Contributing
 
-Issues and pull requests are welcome. Include source URLs, image credits, licences, units, coordinate systems and enough detail to reproduce any analysis.
+Issues and pull requests are welcome. Please include source URLs, image credits, licences, units, coordinate systems and enough information to reproduce any analysis.
+
+## Licence
+
+The **source code** in this repository is released under the GNU Affero General Public License v3.0 or any later version (AGPL-3.0-or-later). This does **not** grant rights to third-party images, logos, catalogues or mission data. Their original terms remain in force.

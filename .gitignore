@@ -7,3 +7,12 @@ __pycache__/
 .DS_Store
 assets/images/*
 !assets/images/.gitkeep
+
+# Streamlit agent skills (environment-specific symlinks)
+.agents/skills/developing-with-streamlit
+.claude/skills/developing-with-streamlit
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
